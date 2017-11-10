@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: List
+items:
+- kind: "BuildConfig"
+  apiVersion: "v1"
+  metadata:
+    name: "flink-image" 
+  spec:
+    runPolicy: "Serial" 
+    source:
+      type: "Git"
+      git: 
+        uri: "http://git.o-rechtspraak.minjus.nl/dwd/flink-image.git"
+        ref: "master"
+    strategy: 
+      type: "Docker"
+      dockerStrategy:
+        dockerfilePath: flink/Dockerfile
+    output: 
+      to:
+        kind: "ImageStreamTag"
+        name: "flink-image:latest"
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    generation: 1
+    labels:
+      app: flink-image
+      version: v1
+    name: flink-image
+
